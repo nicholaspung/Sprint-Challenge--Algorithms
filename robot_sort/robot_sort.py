@@ -97,7 +97,58 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        self.all_the_way_left()
+        while self.light_is_on() == False:
+            self.compare_and_do_something()
+            self.move_right()
+
+    def compare_and_do_something(self):
+        if self.compare_item() == 1 or self.compare_item() == 0:
+            self.move_right()
+        elif self.compare_item() == -1:
+            self.swap_item()
+            if self.can_move_left() == True:
+                self.move_left()
+                self.compare_and_do_something()
+        else:
+            self.check_item_none()
+
+    def check_item_none(self):
+        if self.can_move_right() == True:
+            self.move_right()
+            if self.compare_item() is None:
+                self.all_the_way_right()
+                self.swap_item()
+                self.all_the_way_left()
+            else:
+                self.move_left()
+                self.swap_item()
+                self.all_the_way_right()
+                self.swap_item()
+                self.all_the_way_left()
+        else:
+            self.move_left()
+            if self.compare_item() is None:
+                self.move_right()
+                self.swap_item()
+                self.all_the_way_left()
+            else:
+                self.compare_and_do_something()
+                if self.can_move_left() == False:
+                    self.all_the_way_right()
+                    self.swap_item()
+                    self.set_light_on()
+                pass
+
+    def all_the_way_left(self):
+        while self.can_move_left() == True:
+            self.move_left()
+
+    def all_the_way_right(self):
+        while self.can_move_right() == True:
+            self.move_right()
+
+
 
 
 if __name__ == "__main__":
